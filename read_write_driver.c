@@ -9,32 +9,32 @@
 
 int main()
 {
-    int fd;
-    char write_buffer[] = "hello!";
-    char read_buffer[1024];
-    fd = open("/workspaces/Character-Device-Driver/driver.ko", O_RDWR);
-
-    if(fd < 0)
+    int fd; //Declares an integer variable fd as an identifier for a file descriptor.
+    char write_buffer[] = "hello!"; //initializes a character array with the value "hello!"
+    char read_buffer[1024]; //initializes a character array, with a size of 1024 character.
+    fd = open("/workspaces/Character-Device-Driver/driver", O_RDWR);
+    //open a kernel module file located at "/workspaces/Character-Device-Driver/driver.ko" with read and write access, and sets the returned file descriptor to the fd variable.
+    if(fd < 0) //Checks if the fd is less than 0
     {
-        printf("can't open the driver...\n");
+        printf("can't open the driver...\n"); //prints an error message if it failed.
         return 0;
     }
 
-    if (write(fd, write_buffer, strlen(write_buffer) + 1) < 0) 
+    if (write(fd, write_buffer, strlen(write_buffer) + 1) < 0) //If the write operation fails
     {
-        printf("failed to write to driver\n");
+        printf("failed to write to driver\n"); //prints an error message.
         return 0;
     }
 
-    if (read(fd, read_buffer, 1024) < 0) {
-        printf("failed to read from driver\n");
+    if (read(fd, read_buffer, 1024) < 0) ////If the read operation fails
+    {
+        printf("failed to read from driver\n"); //prints an error message.
         return 0;
     }
 
-    write(fd, write_buffer, strlen(write_buffer) + 1);
-    read(fd, read_buffer, 1024);
-    close(fd);
+    write(fd, write_buffer, strlen(write_buffer) + 1); //Writes the contents of the write_buffer to the driver
+    read(fd, read_buffer, 1024); //Reads the data from the driver
+    close(fd); //Closes the file descriptor
 
-    printf("%s \n", read_buffer);
+    printf("%s \n", read_buffer); //prints the content of the read_buffer.
 }
-
